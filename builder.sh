@@ -39,9 +39,9 @@ rm -f ./recipe.yml
 echo "app: $APP
 
 ingredients:
-  dist: oldstable
+  dist: stable
   sources:
-    - deb http://ftp.us.debian.org/debian/ oldstable main contrib non-free
+    - deb http://ftp.us.debian.org/debian/ stable main contrib non-free
   packages:
     - $APP" >> recipe.yml
 
