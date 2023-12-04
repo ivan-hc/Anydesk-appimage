@@ -19,9 +19,9 @@ jobs:
       run: |
         sudo apt update
         sudo apt install libfuse2
-        wget https://raw.githubusercontent.com/ivan-hc/Anydesk-appimage/main/anydesk-bin-junest.sh
-        chmod a+x ./anydesk-bin-junest.sh
-        ./anydesk-bin-junest.sh
+        wget https://raw.githubusercontent.com/ivan-hc/Anydesk-appimage/main/builder.sh
+        chmod a+x ./builder.sh
+        ./builder.sh
         mkdir dist
         mv *AppImage dist/
     - uses: gautamkrishnar/keepalive-workflow@v1
