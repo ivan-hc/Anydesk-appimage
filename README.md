@@ -1,12 +1,6 @@
 This repository creates and distributes the unofficial Appimage of Anydesk built from the official .deb package.
 
 -------------------------
-### Downloads
-Continuous builds are released each Sunday, you can download them from:
-
-***https://github.com/ivan-hc/GIMP-appimage/releases/tag/continuous*** 
-
----------------------------------
 
 ## Install and update it with ease
 
