@@ -10,7 +10,7 @@ if test -f ./appimagetool; then
 	echo " appimagetool already exists" 1> /dev/null
 else
 	echo " Downloading appimagetool..."
-	wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
+	wget -q $(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | grep -v zsync | grep -i continuous | grep -i appimagetool | grep -i x86_64 | grep browser_download_url | cut -d '"' -f 4 | head -1) -O appimagetool
 fi
 if test -f ./pkg2appimage; then
 	echo " pkg2appimage already exists" 1> /dev/null
@@ -101,7 +101,7 @@ mv ./$APP/$APP$underscore*.deb ./version/
 version=$(ls ./version)
 
 # ...EXPORT THE APPDIR TO AN APPIMAGE!
-ARCH=x86_64 ./appimagetool -n ./$APP/$APP.AppDir;
+ARCH=x86_64 VERSION=$(./appimagetool -v | grep -o '[[:digit:]]*') ./appimagetool -s ./$APP/$APP.AppDir;
 mkdir version
 mv ./$APP/$APP$underscore*.deb ./version/
 version=$(ls ./version | cut -c 9- | rev | cut -c 11- | rev)
