@@ -39,13 +39,11 @@ rm -f ./recipe.yml
 echo "app: $APP
 
 ingredients:
-  dist: oldstable
+  dist: stable
   sources:
-    - deb http://ftp.us.debian.org/debian/ oldstable main contrib non-free
+    - deb http://ftp.us.debian.org/debian/ stable main contrib non-free
   packages:
-    - $APP
-    - libglx-mesa0
-    - xdg-utils" >> recipe.yml
+    - $APP" >> recipe.yml
 
 
 for arg in $ARGS; do echo "    - $arg" >> ./recipe.yml; done
@@ -59,11 +57,14 @@ cat > AppRun << 'EOF'
 #!/bin/sh
 HERE="$(dirname "$(readlink -f "${0}")")"
 export UNION_PRELOAD="${HERE}"
-export PATH="${HERE}"/usr/bin/:"${HERE}"/usr/sbin/:"${HERE}"/usr/games/:"${HERE}"/bin/:"${HERE}"/sbin/:"${PATH}"
-export LD_LIBRARY_PATH=/lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/:/lib64/:"${HERE}"/usr/lib/:"${HERE}"/usr/lib/:"${HERE}"/usr/lib64/:"${HERE}"/usr/lib32/:"${HERE}"/usr/lib/:"${HERE}"/usr/lib/x86_64-linux-gnu/:"${HERE}"/usr/lib32/:"${HERE}"/usr/lib64/:"${HERE}"/lib/:"${HERE}"/lib/:"${HERE}"/lib/x86_64-linux-gnu/:"${HERE}"/lib32/:"${HERE}"/lib64/:"${LD_LIBRARY_PATH}"
+export PATH="${HERE}"/usr/bin/:"${HERE}"/usr/sbin/:"${HERE}"/usr/games/:"${HERE}"/bin/:"${HERE}"/opt//:"${HERE}"/sbin/:"${PATH}"
+export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:/usr/lib/:/lib64/:"${HERE}"/usr/lib/:"${HERE}"/usr/lib//:"${HERE}"/usr/lib64//:"${HERE}"/usr/lib32//:"${HERE}"/usr/lib/:"${HERE}"/usr/lib/x86_64-linux-gnu/:"${HERE}"/usr/lib32/:"${HERE}"/usr/lib64/:"${HERE}"/lib/:"${HERE}"/lib/:"${HERE}"/lib/x86_64-linux-gnu/:"${HERE}"/lib32/:"${HERE}"/lib64/:"${LD_LIBRARY_PATH}"
+export PYTHONPATH="${HERE}"/usr/share/pyshared/:"${HERE}"/usr/lib/python*/:"${PYTHONPATH}"
+export PYTHONHOME="${HERE}"/usr/:"${HERE}"/usr/lib/python*/
 export XDG_DATA_DIRS="${HERE}"/usr/share/:"${XDG_DATA_DIRS}"
 export PERLLIB="${HERE}"/usr/share/perl5/:"${HERE}"/usr/lib/perl5/:"${PERLLIB}"
 export GSETTINGS_SCHEMA_DIR="${HERE}"/usr/share/glib-2.0/schemas/:"${GSETTINGS_SCHEMA_DIR}"
+export QT_PLUGIN_PATH="${HERE}"/usr/lib/qt4/plugins/:"${HERE}"/usr/lib//:"${HERE}"/usr/lib64//:"${HERE}"/usr/lib32//:"${HERE}"/usr/lib/qt4/plugins/:"${HERE}"/usr/lib/x86_64-linux-gnu/qt4/plugins/:"${HERE}"/usr/lib32/qt4/plugins/:"${HERE}"/usr/lib64/qt4/plugins/:"${HERE}"/usr/lib/qt5/plugins/:"${HERE}"/usr/lib/qt5/plugins/:"${HERE}"/usr/lib/x86_64-linux-gnu/qt5/plugins/:"${HERE}"/usr/lib32/qt5/plugins/:"${HERE}"/usr/lib64/qt5/plugins/:"${QT_PLUGIN_PATH}"
 EXEC=$(grep -e '^Exec=.*' "${HERE}"/*.desktop | head -n 1 | cut -d "=" -f 2- | sed -e 's|%.||g')
 exec ${HERE}/usr/bin/anydesk "$@" 2> /dev/null
 EOF
@@ -91,14 +92,18 @@ cp ./$APP/$APP.AppDir/usr/share/icons/hicolor/512x512/apps/*$ICONNAME* ./$APP/$A
 cp ./$APP/$APP.AppDir/usr/share/icons/hicolor/scalable/apps/*$ICONNAME* ./$APP/$APP.AppDir/ 2>/dev/null
 cp ./$APP/$APP.AppDir/usr/share/applications/*$ICONNAME* ./$APP/$APP.AppDir/ 2>/dev/null
 
-sed -i 's#Exec=/usr/bin/anydesk#Exec=anydesk#g' ./$APP/$APP.AppDir/*.desktop
-
 # ...EXPORT THE APPDIR TO AN APPIMAGE!
-ARCH=x86_64 VERSION=$(./appimagetool -v | grep -o '[[:digit:]]*') ./appimagetool -s ./$APP/$APP.AppDir
+ARCH=x86_64 VERSION=$(./appimagetool -v | grep -o '[[:digit:]]*') ./appimagetool -s ./$APP/$APP.AppDir;
 underscore=_
 mkdir version
 mv ./$APP/$APP$underscore*.deb ./version/
 version=$(ls ./version)
+
+# ...EXPORT THE APPDIR TO AN APPIMAGE!
+ARCH=x86_64 VERSION=$(./appimagetool -v | grep -o '[[:digit:]]*') ./appimagetool -s ./$APP/$APP.AppDir;
+mkdir version
+mv ./$APP/$APP$underscore*.deb ./version/
+version=$(ls ./version | cut -c 9- | rev | cut -c 11- | rev)
 
 cd ..
 mv ./tmp/*.AppImage ./Anydesk-$version-x86_64.AppImage
