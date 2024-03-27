@@ -22,8 +22,8 @@ chmod a+x ./appimagetool ./pkg2appimage
 
 # CREATING THE APPIMAGE: DOWNLOAD THE DEB PACKAGE AND GET THE FULL LIST OF DEPENDENCES...
 
-DEB=$(wget -q "https://download.anydesk.com/linux/" -O -| grep -E "anydesk.*amd64.deb" | cut -d'"' -f2 | grep -w -v "/deb" | grep -w -v sum | tail -1 | cut -c 3-)
-wget https://download.anydesk.com/linux/$DEB
+DEB=$(wget -q "http://deb.anydesk.com/pool/main/a/anydesk/" -O -| grep -E "anydesk.*amd64.deb" | cut -d'"' -f2 | grep -w -v "/deb" | grep -w -v sum | tail -1)
+wget http://deb.anydesk.com/pool/main/a/anydesk/$DEB
 ar x ./*.deb
 tar fx ./control.tar.gz
 echo "" >> deps
