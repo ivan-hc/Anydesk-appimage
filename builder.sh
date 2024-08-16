@@ -94,14 +94,8 @@ cp ./$APP/$APP.AppDir/usr/share/applications/*$ICONNAME* ./$APP/$APP.AppDir/ 2>/
 sed -i 's#Exec=/usr/bin/anydesk#Exec=anydesk#g' ./$APP/$APP.AppDir/*.desktop
 
 # ...EXPORT THE APPDIR TO AN APPIMAGE!
-ARCH=x86_64 VERSION=$(./appimagetool -v | grep -o '[[:digit:]]*') ./appimagetool -s ./$APP/$APP.AppDir;
-underscore=_
-mkdir version
-mv ./$APP/$APP$underscore*.deb ./version/
-version=$(ls ./version)
-
-# ...EXPORT THE APPDIR TO AN APPIMAGE!
 ARCH=x86_64 ./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mksquashfs-opt 20 ./$APP/$APP.AppDir;
+underscore=_
 mkdir version
 mv ./$APP/$APP$underscore*.deb ./version/
 version=$(ls ./version | cut -c 9- | rev | cut -c 11- | rev)
