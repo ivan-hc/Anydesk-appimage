@@ -1,5 +1,7 @@
 This repository creates and distributes the unofficial Appimage of Anydesk built from the official .deb package.
 
+NOTE: Anydesk requires gtk2 libraries installed on the system.
+
 ------------------------------------------------------------------------
 
 ## Install and update it with ease
