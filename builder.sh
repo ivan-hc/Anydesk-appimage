@@ -37,17 +37,21 @@ mv ./$DEB ./$APP/
 # ...COMPILE THE RECIPE...
 rm -f ./recipe.yml
 echo "app: $APP
+binpatch: true
 
 ingredients:
   dist: oldstable
+  script:
+    - wget -q http://ftp.debian.org/debian/pool/main/g/gtk+2.0/$(curl -Ls https://packages.debian.org/oldstable/amd64/libgtk2.0-0/download | tr '">< ' '\n' | grep -i "libgtk2.*amd64.deb$" | head -1)
   sources:
-    - deb http://ftp.us.debian.org/debian/ oldstable main contrib non-free
+    - deb http://ftp.debian.org/debian/ oldstable main contrib non-free
+    - deb http://security.debian.org/debian-security/ oldstable-security main contrib non-free
+    - deb http://ftp.debian.org/debian/ oldstable-updates main contrib non-free
   packages:
     - $APP
     - libglx-mesa0
     - xdg-utils
     - libgtk2.0-0" >> recipe.yml
-
 
 for arg in $ARGS; do echo "    - $arg" >> ./recipe.yml; done
 
