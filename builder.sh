@@ -16,7 +16,7 @@ if test -f ./pkg2appimage; then
 	echo " pkg2appimage already exists" 1> /dev/null
 else
 	echo " Downloading pkg2appimage..."
-	wget -q https://raw.githubusercontent.com/ivan-hc/AM-application-manager/main/tools/pkg2appimage
+	wget -q https://github.com/AppImageCommunity/pkg2appimage/releases/download/continuous/pkg2appimage--x86_64.AppImage -O pkg2appimage
 fi
 chmod a+x ./appimagetool ./pkg2appimage
 
