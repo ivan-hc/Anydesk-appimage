@@ -103,7 +103,7 @@ ARCH=x86_64 ./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mk
 underscore=_
 mkdir version
 mv ./$APP/$APP$underscore*.deb ./version/
-version=$(ls ./version | cut -c 9- | rev | cut -c 11- | rev)
+VERSION=$(ls ./version | cut -c 9- | rev | cut -c 11- | rev)
 
 cd ..
-mv ./tmp/*.AppImage ./Anydesk-$version-x86_64.AppImage
+mv ./tmp/*.AppImage ./Anydesk-$VERSION-x86_64.AppImage
