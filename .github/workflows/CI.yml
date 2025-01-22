@@ -19,8 +19,8 @@ jobs:
       run: |
         sudo apt update
         sudo apt install desktop-file-utils
-        chmod a+x ./builder.sh
-        ./builder.sh
+        chmod a+x ./anydesk-deb-builder.sh
+        ./anydesk-deb-builder.sh
         mkdir dist
         mv *AppImage* dist/
 
