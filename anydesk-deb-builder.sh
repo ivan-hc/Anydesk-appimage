@@ -73,7 +73,6 @@ EXEC=$(grep -e '^Exec=.*' "${HERE}"/*.desktop | head -n 1 | cut -d "=" -f 2- | s
 exec ${HERE}/usr/bin/anydesk "$@" 2> /dev/null
 EOF
 chmod a+x AppRun
-cp ./AppRun /opt/$APP/
 mv ./AppRun ./$APP/$APP.AppDir
 
 # IMPORT THE LAUNCHER AND THE ICON TO THE APPDIR IF THEY NOT EXIST
@@ -99,11 +98,19 @@ cp ./$APP/$APP.AppDir/usr/share/applications/*$ICONNAME* ./$APP/$APP.AppDir/ 2>/
 sed -i 's#Exec=/usr/bin/anydesk#Exec=anydesk#g' ./$APP/$APP.AppDir/*.desktop
 
 # ...EXPORT THE APPDIR TO AN APPIMAGE!
-ARCH=x86_64 ./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mksquashfs-opt 20 ./$APP/$APP.AppDir;
 underscore=_
 mkdir version
 mv ./$APP/$APP$underscore*.deb ./version/
 VERSION=$(ls ./version | cut -c 9- | rev | cut -c 11- | rev)
 
+APPNAME="Anydesk"
+REPO="Anydesk-appimage"
+TAG="continuous"
+UPINFO="gh-releases-zsync|$GITHUB_REPOSITORY_OWNER|$REPO|$TAG|*x86_64.AppImage.zsync"
+
+ARCH=x86_64 ./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mksquashfs-opt 20 \
+	-u "$UPINFO" \
+	./"$APP"/"$APP".AppDir "$APPNAME"_"$VERSION"-x86_64.AppImage
+
 cd ..
-mv ./tmp/*.AppImage ./Anydesk-$VERSION-x86_64.AppImage
+mv ./tmp/*.AppImage ./
