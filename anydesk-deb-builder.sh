@@ -113,4 +113,4 @@ ARCH=x86_64 ./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mk
 	./"$APP"/"$APP".AppDir "$APPNAME"_"$VERSION"-x86_64.AppImage
 
 cd ..
-mv ./tmp/*.AppImage ./
+mv ./tmp/*.AppImage* ./
