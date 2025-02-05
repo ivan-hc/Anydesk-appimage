@@ -108,7 +108,9 @@ REPO="Anydesk-appimage"
 TAG="continuous"
 UPINFO="gh-releases-zsync|$GITHUB_REPOSITORY_OWNER|$REPO|$TAG|*x86_64.AppImage.zsync"
 
-ARCH=x86_64 ./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mksquashfs-opt 20 \
+printf '#!/bin/sh\nexit 0' > ./desktop-file-validate # hack due to https://github.com/AppImage/appimagetool/pull/47
+chmod a+x ./desktop-file-validate
+PATH="$PATH:$PWD" ARCH=x86_64 ./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mksquashfs-opt 20 \
 	-u "$UPINFO" \
 	./"$APP"/"$APP".AppDir "$APPNAME"_"$VERSION"-x86_64.AppImage
 
