@@ -1,0 +1,1 @@
+https://github.com/ivan-hc/Anydesk-appimage/releases/download/continuous/Anydesk_6.4.2-x86_64.AppImage
