@@ -64,12 +64,6 @@ cat > AppRun << 'EOF'
 #!/bin/sh
 HERE="$(dirname "$(readlink -f "${0}")")"
 export UNION_PRELOAD="${HERE}"
-export PATH="${HERE}"/usr/bin/:"${HERE}"/usr/sbin/:"${HERE}"/usr/games/:"${HERE}"/bin/:"${HERE}"/sbin/:"${PATH}"
-export LD_LIBRARY_PATH=/lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/:/lib64/:"${HERE}"/usr/lib/:"${HERE}"/usr/lib/:"${HERE}"/usr/lib64/:"${HERE}"/usr/lib32/:"${HERE}"/usr/lib/:"${HERE}"/usr/lib/x86_64-linux-gnu/:"${HERE}"/usr/lib32/:"${HERE}"/usr/lib64/:"${HERE}"/lib/:"${HERE}"/lib/:"${HERE}"/lib/x86_64-linux-gnu/:"${HERE}"/lib32/:"${HERE}"/lib64/:"${LD_LIBRARY_PATH}"
-export XDG_DATA_DIRS="${HERE}"/usr/share/:"${XDG_DATA_DIRS}"
-export PERLLIB="${HERE}"/usr/share/perl5/:"${HERE}"/usr/lib/perl5/:"${PERLLIB}"
-export GSETTINGS_SCHEMA_DIR="${HERE}"/usr/share/glib-2.0/schemas/:"${GSETTINGS_SCHEMA_DIR}"
-EXEC=$(grep -e '^Exec=.*' "${HERE}"/*.desktop | head -n 1 | cut -d "=" -f 2- | sed -e 's|%.||g')
 exec ${HERE}/usr/bin/anydesk "$@" 2> /dev/null
 EOF
 chmod a+x AppRun
