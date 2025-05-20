@@ -64,7 +64,7 @@ cat > AppRun << 'EOF'
 #!/bin/sh
 HERE="$(dirname "$(readlink -f "${0}")")"
 export UNION_PRELOAD="${HERE}"
-exec ${HERE}/usr/bin/anydesk "$@" 2> /dev/null
+exec ${HERE}/usr/bin/anydesk "$@"
 EOF
 chmod a+x AppRun
 mv ./AppRun ./$APP/$APP.AppDir
