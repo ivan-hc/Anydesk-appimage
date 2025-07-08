@@ -64,6 +64,7 @@ cat > AppRun << 'EOF'
 #!/bin/sh
 HERE="$(dirname "$(readlink -f "${0}")")"
 export UNION_PRELOAD="${HERE}"
+export GDK_BACKEND=x11
 exec ${HERE}/usr/bin/anydesk "$@"
 EOF
 chmod a+x AppRun
