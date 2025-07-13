@@ -1,2 +1,2 @@
 https://github.com/ivan-hc/Anydesk-appimage/releases/download/continuous/Anydesk_7.0.2-x86_64.AppImage
-Sat Jul 12 00:57:09 UTC 2025
+Sun Jul 13 01:01:24 UTC 2025
