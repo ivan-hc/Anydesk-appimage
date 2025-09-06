@@ -18,7 +18,7 @@ jobs:
       if: always()
       run: |
         sudo apt update
-        sudo apt install desktop-file-utils libfuse2
+        sudo apt install desktop-file-utils libfuse2 appstream
         chmod a+x ./anydesk-deb-builder.sh
         ./anydesk-deb-builder.sh
         mkdir dist
