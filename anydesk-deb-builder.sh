@@ -51,7 +51,8 @@ ingredients:
     - $APP
     - libglx-mesa0
     - xdg-utils
-    - libgtk2.0-0" >> recipe.yml
+    - libgtk2.0-0
+	- libevdev2" >> recipe.yml
 
 for arg in $ARGS; do echo "    - $arg" >> ./recipe.yml; done
 
