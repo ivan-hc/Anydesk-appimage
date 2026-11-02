@@ -6,11 +6,9 @@ mkdir -p tmp
 cd tmp
 
 # DOWNLOADING THE DEPENDENCIES
-if test -f ./appimagetool; then
-	echo " appimagetool already exists" 1> /dev/null
-else
-	echo " Downloading appimagetool..."
-	wget -q https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
+if ! test -f ./appimagetool; then
+	wget -q https://github.com/pkgforge-dev/appimagetool/releases/latest/download/appimagetool-x86_64-linux -O appimagetool
+	chmod a+x ./appimagetool
 fi
 if test -f ./pkg2appimage; then
 	echo " pkg2appimage already exists" 1> /dev/null
@@ -90,6 +88,7 @@ cp ./$APP/$APP.AppDir/usr/share/icons/hicolor/256x256/apps/*$ICONNAME* ./$APP/$A
 cp ./$APP/$APP.AppDir/usr/share/icons/hicolor/512x512/apps/*$ICONNAME* ./$APP/$APP.AppDir/ 2>/dev/null
 cp ./$APP/$APP.AppDir/usr/share/icons/hicolor/scalable/apps/*$ICONNAME* ./$APP/$APP.AppDir/ 2>/dev/null
 cp ./$APP/$APP.AppDir/usr/share/applications/*$ICONNAME* ./$APP/$APP.AppDir/ 2>/dev/null
+cp ./$APP/$APP.AppDir/usr/share/icons/hicolor/256x256/apps/*$ICONNAME* ./$APP/$APP.AppDir/.DirIcon 2>/dev/null || cp ./$APP/$APP.AppDir/*$ICONNAME*.png ./$APP/$APP.AppDir/.DirIcon 2>/dev/null
 
 sed -i 's#Exec=/usr/bin/anydesk#Exec=anydesk#g' ./$APP/$APP.AppDir/*.desktop
 
@@ -104,9 +103,10 @@ REPO="Anydesk-appimage"
 TAG="continuous"
 UPINFO="gh-releases-zsync|$GITHUB_REPOSITORY_OWNER|$REPO|$TAG|*x86_64.AppImage.zsync"
 
-ARCH=x86_64 ./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mksquashfs-opt 20 \
+APPIMAGE_ARCH=x86_64 VERSION="$VERSION" ./appimagetool \
 	-u "$UPINFO" \
-	./"$APP"/"$APP".AppDir "$APPNAME"_"$VERSION"-x86_64.AppImage
+	-n "$APPNAME"_"$VERSION"-x86_64.AppImage \
+	./"$APP"/"$APP".AppDir || exit 1
 
 cd ..
 mv ./tmp/*.AppImage* ./
